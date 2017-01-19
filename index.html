@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Rotate Regex101 exports</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <textarea id="input" rows="8" cols="50"></textarea>
+    <textarea id="output" rows="8" cols="50"></textarea>
+    <input type="button" id="convert" value="Convert!">
+    <script type="text/javascript">
+      $('#convert').on('click', function() {
+        console.log('click function start');
+        var inputText = $('#input').val();
+        var inputJSON = JSON.parse(inputText);
+        console.log(inputJSON.length);
+        outputTable = []; // Array of rows, to be joined by \n
+        outputTableHeader = [];
+        for (var i = 0; i < inputJSON.length; i++) {
+          var outputRow = []; // Array of cells, to be joined by \t
+          var match = inputJSON[i];
+          console.log(match);
+          for (var k = 0; k < match.length; k++) {
+            if (i === 0) {
+              if (k === 0) {
+                outputTableHeader.push('match');
+              } else {
+                outputTableHeader.push('group'+i.toString())
+              }
+            }
+            var group = match[k];
+            console.log(group['content']);
+            outputRow.push(group['content']);
+          }
+          outputRowString = outputRow.join('\t');
+          console.log(outputRowString);
+          outputTable.push(outputRowString);
+        }
+        outputTableHeaderString = outputTableHeader.join('\t');
+        outputTable.unshift(outputTableHeaderString);
+        outputTableString = outputTable.join('\n');
+        $('#output').val(outputTableString);
+        console.log('click function end');
+      });
+    </script>
+  </body>
+</html>
